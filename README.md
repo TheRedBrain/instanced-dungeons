@@ -1,9 +1,5 @@
-# Fabric Example Mod
+# Minecrawl
 
-## Setup
+A content mod for Minecraft. Introduces a dungeon crawling game mode.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This mod bundles multiple data packs and resource packs. It also has some java code, but all those features will eventually be implemented via data packs.
