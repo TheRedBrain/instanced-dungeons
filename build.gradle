@@ -13,11 +13,46 @@ base {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	// Cloth Config
+	maven {
+		url "https://maven.shedaniel.me/"
+	}
+
+	// Trinkets, Cloth Config, Mod Menu
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+
+	// Trinkets, Cardinal Components
+	maven {
+		name = "Ladysnake Libs"
+		url = 'https://maven.ladysnake.org/releases'
+	}
+
+	// Spell Power, Spell Engine, Ranged Weapon API
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+
+	// Player Animator
+	maven {
+		name "KosmX's maven"
+		url 'https://maven.kosmx.dev/'
+	}
+
+	// Mixin Squared
+	maven {
+		url 'https://jitpack.io'
+	}
+
+	flatDir {
+		dirs("libs")
+	}
 }
 
 loom {
@@ -42,7 +77,80 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	// Cloth Config
+	modImplementation ("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}")
+
+	// Player Animation Lib
+	modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_animator_version}")
+
+	// Spell Engine Extension
+	modImplementation("maven.modrinth:spell-engine-extension:${project.spell_engine_extension_version}")
+
+	// Spell Engine
+	modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}")
+
+	// Spell Power
+	modImplementation("maven.modrinth:spell-power:${project.spell_power_version}")
+
+	// Trinkets
+	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+
+	// Ranged Weapon API
+	modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}")
+
+	// Tiny Config
+	implementation include("com.github.ZsoltMolnarrr:TinyConfig:${project.tiny_config_version}")
+
+	// Better Combat
+	modImplementation("maven.modrinth:better-combat:${project.better_combat_version}")
+
+	// Better Combat Extension
+	modImplementation("maven.modrinth:bettercombat-extension:${project.better_combat_extension_version}")
+
+	// Combat Roll
+	modImplementation "maven.modrinth:combat-roll:${project.combat_roll_version}-fabric"
+
+	// Combat Roll Extension
+	modImplementation("maven.modrinth:combat-roll-extension:${project.combat_roll_extension_version}")
+
+	// Shield API
+	modImplementation("maven.modrinth:shield-api:${project.shield_api_version}")
+
+	// RPG Inventory
+	modImplementation("maven.modrinth:rpg-inventory:${project.rpg_inventory_version}")
+
+	// Overhauled Damage
+	modImplementation("maven.modrinth:overhauled-damage:${project.overhauled_damage_version}")
+
+	// Mana Attributes
+	modImplementation("maven.modrinth:mana-attributes:${project.mana_attributes_version}")
+
+	// Stamina Attributes
+	modImplementation("maven.modrinth:stamina-attributes:${project.stamina_attributes_version}")
+
+	// Inventory Size Attributes
+	modImplementation("maven.modrinth:inventory-size-attributes:${project.inventory_size_attributes_version}")
+
+	// Health Regeneration Overhaul
+	modImplementation("maven.modrinth:health-regeneration-overhaul:${project.health_regeneration_overhaul_version}")
+
+	// Food Overhaul
+	modImplementation("maven.modrinth:food-overhaul:${project.food_overhaul_version}")
+
+	// Equipment Weight
+	modImplementation("maven.modrinth:equipment-weight:${project.equipment_weight_version}")
+
+	// Backpack Attribute
+	modImplementation("maven.modrinth:backpack-attribute:${project.backpack_attribute_version}")
+
+	// Slot Customization API
+	modImplementation "maven.modrinth:slot-customization-api:${project.slot_customization_api_version}"
+
+	// Mixin Squared
+	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.2-beta.4")))
+
+	modImplementation(":merged-items:1.0.0")
 }
 
 processResources {
@@ -97,7 +205,11 @@ if (project.hasProperty('release_type')) {
 			addGameVersion "Fabric"
 
 			relations {
+				requiredDependency 'cloth-config'
 				requiredDependency 'fabric-api'
+				requiredDependency 'spell-engine'
+				requiredDependency 'ranged-weapon-api'
+				requiredDependency 'trinkets'
 			}
 
 			mainArtifact(remapJar)
@@ -126,7 +238,11 @@ if (project.hasProperty('release_type')) {
 			// scope.type
 			// The scope can be `required`, `optional`, `incompatible`, or `embedded`
 			// The type can either be `project` or `version`
+			required.project 'cloth-config'
 			required.project 'fabric-api'
+			required.project 'spell-engine'
+			required.project 'ranged-weapon-api'
+			required.project 'trinkets'
 		}
 	}
 
